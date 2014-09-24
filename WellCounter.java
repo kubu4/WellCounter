@@ -7,6 +7,7 @@ public class WellCounter {
 		int count = 0;
 		Scanner console = new Scanner(System.in);
 		int maxCount;
+		int remaining = maxCount - count;
 		
 		System.out.print("Total larvae to count?");
 		maxCount = console.nextInt();
@@ -21,7 +22,7 @@ public class WellCounter {
 		
 		System.out.println();
 		System.out.println("You counted " + count + " larvae.");
-		System.out.println("You have " + (maxCount - count) + " remaining.");
+		System.out.println("You have " + remaining + " remaining.");
 		
 	}
 
