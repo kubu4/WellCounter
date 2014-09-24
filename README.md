@@ -1,6 +1,6 @@
 My first attempt at writing a program in Java.
 
-Program is designed to allow the user to count cells/larvae in wells of
+Program is designed to allow the user to easily count (and record count data) cells/larvae in wells of
 culture plates.
 
 Features:
