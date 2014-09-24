@@ -14,8 +14,12 @@ Currently, the program is just written in a singular, main method.  Will eventua
 Program is designed to allow the user to easily count (and record count data) cells/larvae in wells of
 culture plates.
 
-Features:
+Current features:
 - Set maximum number of cells to count
+- Counting cells
+- Display remaining number of cells after a single counting session
+
+Future features:
 - Enter number of samples (wells) to be counted
 - Enter number of replicates for each sample (well)
 - Basic statistics on counts (running average, standard deviation) within replicates and/or across wells.
