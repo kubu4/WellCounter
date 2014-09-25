@@ -1,4 +1,4 @@
-My first attempt at writing a program in Java.
+My first attempt at writing a program in Java.  This is primarily a basic exercise for me to practice Java, while producing (eventually) a concise, useable program to count organisms, generate basic statistics and write the data to a file.
 
 The user should be able to just download and run the .jar file on any platform (currently not tested).  However, the user may have to associate the .jar file type with the Java installation on their system.
 
@@ -20,6 +20,7 @@ Current features:
 - Display remaining number of cells after a single counting session
 
 Future features:
+- Write data to file
 - Enter number of samples (wells) to be counted
 - Enter number of replicates for each sample (well)
 - Basic statistics on counts (running average, standard deviation) within replicates and/or across wells.
