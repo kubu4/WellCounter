@@ -20,6 +20,9 @@ public class WellCounter {
 			System.out.println();
 			System.out.println("You counted " + count + " larvae.");
 			System.out.println("You have " + remaining + " remaining.");
+			if (remaining < 0){
+				System.out.println("You counted " + Math.abs(remaining) + " over your " + maxCount);
+			}
 		
 		}
 	}
