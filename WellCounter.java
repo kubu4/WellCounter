@@ -12,18 +12,25 @@ public class WellCounter {
 		int replicate = 0;
 		ArrayList<Integer>replicates = new ArrayList<Integer>(); //stores replicate number(s)
 		ArrayList<Integer> counts = new ArrayList<Integer>(); //stores counts that correspond to each replicate
+		double mean;
+		double standardDeviation;
 		
-		while (remaining >= 0){
+		while (remaining > 0){
 			replicate++;
-			add.replicates(replicate); //adds new replicate number to replicates ArrayList
+			replicates.add(replicate); //adds new replicate number to replicates ArrayList
 			System.out.println("Replicate #" + replicate);
 			count = countingPrompt(console, count);
-			add.counts(count); //adds new count value to the counts ArrayList
+			counts.add(count); //adds new count value to the counts ArrayList
 			sum += count;
+			mean = mean(counts);
+			standardDeviation = standardDeviation(mean, counts);
 			remaining = maxCount - sum;
 			System.out.println();
 			System.out.println("You counted " + count + " larvae.");
 			System.out.println("You have " + remaining + " remaining.");
+			System.out.println("The current mean of your replicates is " + mean);
+			System.out.println("The current standard deviation of your replicates is " + standardDeviation);
+			System.out.println();
 			if (remaining < 0){
 				System.out.println("You counted " + Math.abs(remaining) + " over your " + maxCount);
 			}
@@ -49,9 +56,9 @@ public class WellCounter {
 		return count;
 	}
 	
-	public double mean (ArrayList<Integer> counts){
+	public static double mean (ArrayList<Integer> counts){
 		double mean = 0;
-		int sum = 0;
+		double sum = 0;
 		
 		//for loop over each element in the counts ArrayList and adds them together as sum
 		for (int i = 0; i < counts.size(); i++){
@@ -61,7 +68,7 @@ public class WellCounter {
 		return mean;
 	}
 	
-	public double standardDeviation(double mean, ArrayList<Integer> counts){
+	public static double standardDeviation(double mean, ArrayList<Integer> counts){
 		double variance = 0;
 		double standardDeviation = 0;
 		int sum = 0;
