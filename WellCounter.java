@@ -35,8 +35,8 @@ public class WellCounter {
 		System.out.println();
 		System.out.println("You counted " + count + " larvae.");
 		System.out.println("You have " + remaining + " remaining.");
-		System.out.println("The current mean of your replicates is " + mean);
-		System.out.println("The current standard deviation of your replicates is " + standardDeviation);
+		System.out.printf("The current mean of your replicates is " + "%.2f%n", mean);
+		System.out.printf("The current standard deviation of your replicates is " + "%.2f%n", standardDeviation);
 		System.out.println();
 			if (remaining < 0){
 				System.out.println("You counted " + Math.abs(remaining) + " over your " + maxCount);
