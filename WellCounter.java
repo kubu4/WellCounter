@@ -3,10 +3,11 @@ import java.util.*;
 public class WellCounter {
 
 	public static void main(String[] args) {
-
+		
+		//variable declarations
 		int count = 0;
 		int sum = 0;
-		Scanner console = new Scanner(System.in);
+		Scanner console = new Scanner(System.in); //creates scanner for user input
 		int maxCount = initialPrompt(console);
 		int remaining = maxCount;
 		int replicate = 0;
@@ -31,18 +32,27 @@ public class WellCounter {
 		
 		}
 	
+	/*
+	 * A summary of each round of counting. that prints to the console.
+	 * Accepts the integer values: count, remaining, and maxCount.
+	 * Accept the double values: mean, and standarDeviation.
+	 */
 	public static void summary(int count, int remaining, double mean, double standardDeviation, int maxCount){
 		System.out.println();
 		System.out.println("You counted " + count + " larvae.");
 		System.out.println("You have " + remaining + " remaining.");
-		System.out.printf("The current mean of your replicates is " + "%.2f%n", mean);
-		System.out.printf("The current standard deviation of your replicates is " + "%.2f%n", standardDeviation);
+		System.out.printf("The current mean of your replicates is " + "%.2f%n", mean); //prints mean to first two decimal places
+		System.out.printf("The current standard deviation of your replicates is " + "%.2f%n", standardDeviation); //prints standard deviation to first two decimal places
 		System.out.println();
 			if (remaining < 0){
 				System.out.println("You counted " + Math.abs(remaining) + " over your " + maxCount);
 			}
 	}
 	
+	/*
+	 * Initiates the program.
+	 * Accepts a Scanner to allow user to set maximum number to count.
+	 */
 	public static int initialPrompt(Scanner console) {
 		int maxCount = 0;
 		System.out.print("Total larvae to count?");
@@ -52,7 +62,11 @@ public class WellCounter {
 		return maxCount;
 	}
 	
-	
+	/*
+	 * Counts the number of characters entered.  Does not distinguish between character type.
+	 * Accepts a Scanner for user intup and the integer count.
+	 * Returns count.
+	 */
 	public static int countingPrompt(Scanner console, int count){
 		System.out.println("Use Space Bar to tally larvae.");
 		System.out.print("Press Enter when finished.");
@@ -61,6 +75,11 @@ public class WellCounter {
 		return count;
 	}
 	
+	/*
+	 * Calculates the mean.
+	 * Accepts the ArrayList counts.
+	 * Returns mean.
+	 */
 	public static double mean (ArrayList<Integer> counts){
 		double mean = 0;
 		double sum = 0;
@@ -73,6 +92,13 @@ public class WellCounter {
 		return mean;
 	}
 	
+	
+	/*
+	 * Calculates standard deviation.
+	 * Accepts a double, mean, and ArrayList counts.
+	 * Returns standardDeviation.
+	 * Possibly should make this just calculate variance...
+	 */
 	public static double standardDeviation(double mean, ArrayList<Integer> counts){
 		double variance = 0;
 		double standardDeviation = 0;
