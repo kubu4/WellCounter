@@ -54,12 +54,20 @@ public class WellCounter {
 	 * Accepts a Scanner to allow user to set maximum number to count.
 	 */
 	public static int initialPrompt(Scanner console) {
-		int maxCount = 0;
-		System.out.print("Total larvae to count?");
-		maxCount = console.nextInt();
+		System.out.print("Do you want to set a target number to count? (y/n)")
+		String answer = console.next();
+		if (answer.equalsIgnoreCase(answer y)){
+			int maxCount = 0;
+			System.out.print("Total larvae to count?");
+			maxCount = console.nextInt();
+			console.nextLine(); //Needed to clear new line character from previous console input.
+			System.out.println();
+			return maxCount;
+		}
+		
 		console.nextLine(); //Needed to clear new line character from previous console input.
 		System.out.println();
-		return maxCount;
+		
 	}
 	
 	/*
