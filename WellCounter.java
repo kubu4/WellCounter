@@ -8,14 +8,33 @@ public class WellCounter {
 		int count = 0;
 		int sum = 0;
 		Scanner console = new Scanner(System.in); //creates scanner for user input
-		int maxCount = initialPrompt(console);
+		int maxCount = 0;
 		int remaining = maxCount;
 		int replicate = 0;
 		ArrayList<Integer>replicates = new ArrayList<Integer>(); //stores replicate number(s)
 		ArrayList<Integer> counts = new ArrayList<Integer>(); //stores counts that correspond to each replicate
-		double mean;
-		double standardDeviation;
+		double mean = 0;
+		double standardDeviation = 0;
 		
+		System.out.print("Do you want to set a target number to count? (y/n)");
+		String choice = console.next();
+		if (choice.equals("y")){
+			System.out.print("Total larvae to count?");
+			maxCount = console.nextInt();
+			console.nextLine(); //Needed to clear new line character from previous console input.
+			System.out.println();
+		}
+		count(choice, remaining, replicate, replicates, count, console, counts, sum, mean, standardDeviation, maxCount);
+		summary(choice, count, remaining, mean, standardDeviation, maxCount);
+		}
+	
+	/*
+	 * Gathers count information and prints out the remaining left to count from the set maximum 
+	 * after each replicate is counted
+	 * Accepts a long list of parameters to store/print the counts, mean, and standard deviation.
+	 */
+	public static void count(String choice, int remaining, int replicate, ArrayList<Integer> replicates, int count, Scanner console, 
+			ArrayList<Integer>counts, int sum, double mean, double standardDeviation, int maxCount){
 		while (remaining > 0){
 			replicate++;
 			replicates.add(replicate); //adds each new replicate number to replicates ArrayList
@@ -26,21 +45,22 @@ public class WellCounter {
 			mean = mean(counts);
 			standardDeviation = standardDeviation(mean, counts);
 			remaining = maxCount - sum;
-			summary(count, remaining, mean, standardDeviation, maxCount);
-			
-			}
-		
+			summary(choice, count, remaining, mean, standardDeviation, maxCount);
 		}
+	}
+	
 	
 	/*
 	 * A summary of each round of counting. that prints to the console.
 	 * Accepts the integer values: count, remaining, and maxCount.
 	 * Accept the double values: mean, and standarDeviation.
 	 */
-	public static void summary(int count, int remaining, double mean, double standardDeviation, int maxCount){
+	public static void summary(String choice, int count, int remaining, double mean, double standardDeviation, int maxCount){
 		System.out.println();
 		System.out.printf("You counted %i larvae.%n", count);
-		System.out.printf("You have %i remaining.%n", remaining);
+		if (choice.equals("y")){
+			System.out.printf("You have %i remaining.%n", remaining);
+		}
 		System.out.printf("The current mean of your replicates is " + "%.2f%n", mean); //prints mean to first two decimal places
 		System.out.printf("The current standard deviation of your replicates is " + "%.2f%n", standardDeviation); //prints standard deviation to first two decimal places
 		System.out.println();
@@ -49,26 +69,6 @@ public class WellCounter {
 		}
 	}
 	
-	/*
-	 * Initiates the program.
-	 * Accepts a Scanner to allow user to set maximum number to count.
-	 */
-	public static int initialPrompt(Scanner console) {
-		System.out.print("Do you want to set a target number to count? (y/n)")
-		String answer = console.next();
-		if (answer.equalsIgnoreCase(answer y)){
-			int maxCount = 0;
-			System.out.print("Total larvae to count?");
-			maxCount = console.nextInt();
-			console.nextLine(); //Needed to clear new line character from previous console input.
-			System.out.println();
-			return maxCount;
-		}
-		
-		console.nextLine(); //Needed to clear new line character from previous console input.
-		System.out.println();
-		
-	}
 	
 	/*
 	 * Counts the number of characters entered.  Does not distinguish between character type.
