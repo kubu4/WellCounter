@@ -19,7 +19,7 @@ public class WellCounter {
 		while (remaining > 0){
 			replicate++;
 			replicates.add(replicate); //adds each new replicate number to replicates ArrayList
-			System.out.println("Replicate #" + replicate);
+			System.out.printf("Replicate #%i%n", replicate);
 			count = countingPrompt(console, count);
 			counts.add(count); //adds each new count value to the counts ArrayList
 			sum += count;
@@ -39,14 +39,14 @@ public class WellCounter {
 	 */
 	public static void summary(int count, int remaining, double mean, double standardDeviation, int maxCount){
 		System.out.println();
-		System.out.println("You counted " + count + " larvae.");
-		System.out.println("You have " + remaining + " remaining.");
+		System.out.printf("You counted %i larvae.%n", count);
+		System.out.printf("You have %i remaining.%n", remaining);
 		System.out.printf("The current mean of your replicates is " + "%.2f%n", mean); //prints mean to first two decimal places
 		System.out.printf("The current standard deviation of your replicates is " + "%.2f%n", standardDeviation); //prints standard deviation to first two decimal places
 		System.out.println();
-			if (remaining < 0){
-				System.out.println("You counted " + Math.abs(remaining) + " over your " + maxCount);
-			}
+		if (remaining < 0){
+			System.out.println("You counted " + Math.abs(remaining) + " over your " + maxCount);
+		}
 	}
 	
 	/*
