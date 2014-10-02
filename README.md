@@ -1,3 +1,5 @@
+NOTE: This program is not currently functional.
+
 My first attempt at writing a program in Java.  This is primarily a basic exercise for me to practice Java, while producing (eventually) a concise, useable program to count organisms, generate basic statistics and write the data to a file.
 
 

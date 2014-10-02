@@ -15,18 +15,22 @@ public class WellCounter {
 		ArrayList<Integer> counts = new ArrayList<Integer>(); //stores counts that correspond to each replicate
 		double mean = 0;
 		double standardDeviation = 0;
+		String choice = "";
+		String keepCounting = "y";
 		
 		System.out.print("Do you want to set a target number to count? (y/n)");
-		String choice = console.next();
+		choice = console.next();
 		if (choice.equals("y")){
-			System.out.print("Total larvae to count?");
+			System.out.print("Total to count?");
 			maxCount = console.nextInt();
 			console.nextLine(); //Needed to clear new line character from previous console input.
 			System.out.println();
 		}
-		count(choice, remaining, replicate, replicates, count, console, counts, sum, mean, standardDeviation, maxCount);
-		summary(choice, count, remaining, mean, standardDeviation, maxCount);
+		while (keepCounting.equals("y")){
+			count(choice, remaining, replicate, replicates, count, console, counts, sum, mean, standardDeviation, maxCount, keepCounting);
+			summary(choice, count, remaining, mean, standardDeviation, maxCount, keepCounting, console);
 		}
+	}
 	
 	/*
 	 * Gathers count information and prints out the remaining left to count from the set maximum 
@@ -34,19 +38,17 @@ public class WellCounter {
 	 * Accepts a long list of parameters to store/print the counts, mean, and standard deviation.
 	 */
 	public static void count(String choice, int remaining, int replicate, ArrayList<Integer> replicates, int count, Scanner console, 
-			ArrayList<Integer>counts, int sum, double mean, double standardDeviation, int maxCount){
-		while (remaining > 0){
+			ArrayList<Integer>counts, int sum, double mean, double standardDeviation, int maxCount, String keepCounting){
 			replicate++;
 			replicates.add(replicate); //adds each new replicate number to replicates ArrayList
-			System.out.printf("Replicate #%i%n", replicate);
+			System.out.printf("Replicate #%d%n", replicate);
 			count = countingPrompt(console, count);
 			counts.add(count); //adds each new count value to the counts ArrayList
 			sum += count;
 			mean = mean(counts);
 			standardDeviation = standardDeviation(mean, counts);
 			remaining = maxCount - sum;
-			summary(choice, count, remaining, mean, standardDeviation, maxCount);
-		}
+			summary(choice, count, remaining, mean, standardDeviation, maxCount, keepCounting, console);
 	}
 	
 	
@@ -55,25 +57,31 @@ public class WellCounter {
 	 * Accepts the integer values: count, remaining, and maxCount.
 	 * Accept the double values: mean, and standarDeviation.
 	 */
-	public static void summary(String choice, int count, int remaining, double mean, double standardDeviation, int maxCount){
+	public static String summary(String choice, int count, int remaining, double mean, 
+			double standardDeviation, int maxCount, String keepCounting, Scanner console){
 		System.out.println();
-		System.out.printf("You counted %d larvae.%n", count);
+		System.out.printf("You counted %d.%n", count);
 		if (choice.equals("y")){
 			System.out.printf("You have %d remaining.%n", remaining);
 		}
-		System.out.printf("The current mean of your replicates is " + "%.2f%n", mean); //prints mean to first two decimal places
-		System.out.printf("The current standard deviation of your replicates is " 
-				+ "%.2f%n", standardDeviation); //prints standard deviation to first two decimal places
-		System.out.println();
 		if (remaining < 0){
 			System.out.println("You counted " + Math.abs(remaining) + " over your " + maxCount);
 		}
+		System.out.printf("The current mean of your replicates is " 
+				+ "%.2f%n", mean); //prints mean to first two decimal places
+		System.out.printf("The current standard deviation of your replicates is " 
+				+ "%.2f%n", standardDeviation); //prints standard deviation to first two decimal places
+		System.out.println();
+		System.out.println();
+		System.out.print("Keep counting? (y/n)");
+		keepCounting = console.next();
+		return keepCounting;
 	}
 	
 	
 	/*
 	 * Counts the number of characters entered.  Does not distinguish between character type.
-	 * Accepts a Scanner for user intup and the integer count.
+	 * Accepts a Scanner for user input and the integer count.
 	 * Returns count.
 	 */
 	public static int countingPrompt(Scanner console, int count){
