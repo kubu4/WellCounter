@@ -16,19 +16,20 @@ public class WellCounter {
 		double mean = 0;
 		double standardDeviation = 0;
 		String choice = "";
-		String keepCounting = "y";
+		String keepCounting = "";
 		
 		System.out.print("Do you want to set a target number to count? (y/n)");
 		choice = console.next();
+		console.nextLine();
 		if (choice.equals("y")){
 			System.out.print("Total to count?");
 			maxCount = console.nextInt();
 			console.nextLine(); //Needed to clear new line character from previous console input.
 			System.out.println();
 		}
-		while (keepCounting.equals("y")){
+		count(choice, remaining, replicate, replicates, count, console, counts, sum, mean, standardDeviation, maxCount, keepCounting);
+		while (count(choice, remaining, replicate, replicates, count, console, counts, sum, mean, standardDeviation, maxCount, keepCounting).equals("y")){
 			count(choice, remaining, replicate, replicates, count, console, counts, sum, mean, standardDeviation, maxCount, keepCounting);
-			summary(choice, count, remaining, mean, standardDeviation, maxCount, keepCounting, console);
 		}
 	}
 	
@@ -37,7 +38,7 @@ public class WellCounter {
 	 * after each replicate is counted
 	 * Accepts a long list of parameters to store/print the counts, mean, and standard deviation.
 	 */
-	public static void count(String choice, int remaining, int replicate, ArrayList<Integer> replicates, int count, Scanner console, 
+	public static String count(String choice, int remaining, int replicate, ArrayList<Integer> replicates, int count, Scanner console, 
 			ArrayList<Integer>counts, int sum, double mean, double standardDeviation, int maxCount, String keepCounting){
 			replicate++;
 			replicates.add(replicate); //adds each new replicate number to replicates ArrayList
@@ -47,8 +48,11 @@ public class WellCounter {
 			sum += count;
 			mean = mean(counts);
 			standardDeviation = standardDeviation(mean, counts);
-			remaining = maxCount - sum;
-			summary(choice, count, remaining, mean, standardDeviation, maxCount, keepCounting, console);
+			if (choice.equals("y")){
+				remaining = maxCount - sum;
+			}
+			String summary = summary(choice, count, remaining, mean, standardDeviation, maxCount, keepCounting, console);
+			return summary;
 	}
 	
 	
@@ -75,6 +79,7 @@ public class WellCounter {
 		System.out.println();
 		System.out.print("Keep counting? (y/n)");
 		keepCounting = console.next();
+		console.nextLine();
 		return keepCounting;
 	}
 	
