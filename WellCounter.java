@@ -11,49 +11,38 @@ public class WellCounter {
 		int maxCount = 0;
 		int remaining = maxCount;
 		int replicate = 0;
-		ArrayList<Integer>replicates = new ArrayList<Integer>(); //stores replicate number(s)
+		ArrayList<Integer> replicates = new ArrayList<Integer>(); //stores replicate number(s)
 		ArrayList<Integer> counts = new ArrayList<Integer>(); //stores counts that correspond to each replicate
 		double mean = 0;
-		double standardDeviation = 0;
-		String choice = "";
+		double variance = variance(mean, counts);
+		double standardDeviation = standardDeviation(variance);
+		String targetChoice = "";
 		String keepCounting = "";
 		
 		System.out.print("Do you want to set a target number to count? (y/n)");
-		choice = console.next();
+		targetChoice = console.next();
 		console.nextLine();
-		if (choice.equals("y")){
+		if (targetChoice.equals("y")){
 			System.out.print("Total to count?");
 			maxCount = console.nextInt();
 			console.nextLine(); //Needed to clear new line character from previous console input.
 			System.out.println();
 		}
-		count(choice, remaining, replicate, replicates, count, console, counts, sum, mean, standardDeviation, maxCount, keepCounting);
-		while (count(choice, remaining, replicate, replicates, count, console, counts, sum, mean, standardDeviation, maxCount, keepCounting).equals("y")){
-			count(choice, remaining, replicate, replicates, count, console, counts, sum, mean, standardDeviation, maxCount, keepCounting);
+		
+		countingPrompt(console, count);
+		counts.add(count); //adds each new count value to the counts ArrayList
+		replicate++;
+		replicates.add(replicate); //adds each new replicate number to replicates ArrayList
+		System.out.printf("Replicate #%d%n", replicate);
+		sum += count;
+		System.out.print("Keep counting? (y/n)");
+		keepCounting = console.next();
+		console.nextLine();
+		if (keepCounting.equals("y")){
+			remaining = maxCount - sum;
 		}
 	}
-	
-	/*
-	 * Gathers count information and prints out the remaining left to count from the set maximum 
-	 * after each replicate is counted
-	 * Accepts a long list of parameters to store/print the counts, mean, and standard deviation.
-	 */
-	public static String count(String choice, int remaining, int replicate, ArrayList<Integer> replicates, int count, Scanner console, 
-			ArrayList<Integer>counts, int sum, double mean, double standardDeviation, int maxCount, String keepCounting){
-			replicate++;
-			replicates.add(replicate); //adds each new replicate number to replicates ArrayList
-			System.out.printf("Replicate #%d%n", replicate);
-			count = countingPrompt(console, count);
-			counts.add(count); //adds each new count value to the counts ArrayList
-			sum += count;
-			mean = mean(counts);
-			standardDeviation = standardDeviation(mean, counts);
-			if (choice.equals("y")){
-				remaining = maxCount - sum;
-			}
-			String summary = summary(choice, count, remaining, mean, standardDeviation, maxCount, keepCounting, console);
-			return summary;
-	}
+			
 	
 	
 	/*
@@ -61,11 +50,11 @@ public class WellCounter {
 	 * Accepts the integer values: count, remaining, and maxCount.
 	 * Accept the double values: mean, and standarDeviation.
 	 */
-	public static String summary(String choice, int count, int remaining, double mean, 
+	public static void summary(String targetChoice, int count, int remaining, double mean, 
 			double standardDeviation, int maxCount, String keepCounting, Scanner console){
 		System.out.println();
 		System.out.printf("You counted %d.%n", count);
-		if (choice.equals("y")){
+		if (targetChoice.equals("y")){
 			System.out.printf("You have %d remaining.%n", remaining);
 		}
 		if (remaining < 0){
@@ -77,10 +66,6 @@ public class WellCounter {
 				+ "%.2f%n", standardDeviation); //prints standard deviation to first two decimal places
 		System.out.println();
 		System.out.println();
-		System.out.print("Keep counting? (y/n)");
-		keepCounting = console.next();
-		console.nextLine();
-		return keepCounting;
 	}
 	
 	
@@ -96,6 +81,7 @@ public class WellCounter {
 		count = input.length();
 		return count;
 	}
+	
 	
 	/*
 	 * Calculates the mean.
@@ -116,14 +102,11 @@ public class WellCounter {
 	
 	
 	/*
-	 * Calculates standard deviation.
-	 * Accepts a double, mean, and ArrayList counts.
-	 * Returns standardDeviation.
-	 * Possibly should make this just calculate variance...
+	 * Calculates variance.
+	 * Accepts a mean and the ArrayList counts.
 	 */
-	public static double standardDeviation(double mean, ArrayList<Integer> counts){
+	public static double variance(double mean, ArrayList<Integer> counts){
 		double variance = 0;
-		double standardDeviation = 0;
 		int sum = 0;
 		
 		//for loop determines the difference from the mean for each element in the counts ArrayList,
@@ -132,6 +115,16 @@ public class WellCounter {
 			sum += Math.pow(counts.get(i) - mean, 2);
 		}
 		variance = sum/counts.size();//it's possible that this should actually be counts.size()-1 if counting a subset of population
+		return variance;
+	}
+	
+	
+	/*
+	 * Calculates the standard deviation.
+	 * Accepts variance.
+	 */
+	public static double standardDeviation (double variance){
+		double standardDeviation = 0;
 		standardDeviation = Math.sqrt(variance);
 		return standardDeviation;
 	}
