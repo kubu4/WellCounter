@@ -5,23 +5,21 @@ public class WellCounter {
 	public static void main(String[] args) {
 		
 		//variable declarations
-		int count = 0;
-		int sum = 0;
 		Scanner console = new Scanner(System.in); //creates scanner for user input
+		int count;
+		int sum = 0;
 		int maxCount = 0;
-		int remaining = maxCount;
+		int remaining = 0;
 		int replicate = 0;
 		ArrayList<Integer> replicates = new ArrayList<Integer>(); //stores replicate number(s)
 		ArrayList<Integer> counts = new ArrayList<Integer>(); //stores counts that correspond to each replicate
-		double mean = 0;
-		double variance = variance(mean, counts);
-		double standardDeviation = standardDeviation(variance);
 		String targetChoice = "";
-		String keepCounting = "";
+		String keepCounting = "y";
 		
 		System.out.print("Do you want to set a target number to count? (y/n)");
 		targetChoice = console.next();
 		console.nextLine();
+		System.out.println();
 		if (targetChoice.equals("y")){
 			System.out.print("Total to count?");
 			maxCount = console.nextInt();
@@ -29,40 +27,49 @@ public class WellCounter {
 			System.out.println();
 		}
 		
-		countingPrompt(console, count);
-		counts.add(count); //adds each new count value to the counts ArrayList
-		replicate++;
-		replicates.add(replicate); //adds each new replicate number to replicates ArrayList
-		System.out.printf("Replicate #%d%n", replicate);
-		sum += count;
-		System.out.print("Keep counting? (y/n)");
-		keepCounting = console.next();
-		console.nextLine();
-		if (keepCounting.equals("y")){
-			remaining = maxCount - sum;
+		while (keepCounting.equals("y")){
+			count = countingPrompt(console);
+			counts.add(count); //adds each new count value to the counts ArrayList
+			replicate++;
+			replicates.add(replicate); //adds each new replicate number to replicates ArrayList
+			System.out.printf("Replicate #%d%n", replicate);
+			sum += count;
+			double mean = mean(counts);
+			double variance = variance(mean, counts);
+			double standardDeviation = standardDeviation(variance);
+			summary(targetChoice, count, sum, remaining, mean, standardDeviation, maxCount, keepCounting, console);
+			System.out.print("Keep counting? (y/n)");
+			keepCounting = console.next();
+			console.nextLine();
+			System.out.println();
+			if (keepCounting.equals("y")){
+				remaining = maxCount - sum;
+			}
 		}
+		
 	}
 			
 	
 	
 	/*
 	 * A summary of each round of counting. that prints to the console.
-	 * Accepts the integer values: count, remaining, and maxCount.
+	 * Accepts the integer values: count, sum, remaining, and maxCount.
 	 * Accept the double values: mean, and standarDeviation.
 	 */
-	public static void summary(String targetChoice, int count, int remaining, double mean, 
+	public static void summary(String targetChoice, int count, int sum, int remaining, double mean, 
 			double standardDeviation, int maxCount, String keepCounting, Scanner console){
 		System.out.println();
 		System.out.printf("You counted %d.%n", count);
+		System.out.printf("Total counted is %d.%n", sum);
 		if (targetChoice.equals("y")){
 			System.out.printf("You have %d remaining.%n", remaining);
 		}
-		if (remaining < 0){
+		if (targetChoice.equals("y") && remaining < 0){
 			System.out.println("You counted " + Math.abs(remaining) + " over your " + maxCount);
 		}
-		System.out.printf("The current mean of your replicates is " 
+		System.out.printf("The mean of your replicates is " 
 				+ "%.2f%n", mean); //prints mean to first two decimal places
-		System.out.printf("The current standard deviation of your replicates is " 
+		System.out.printf("The standard deviation of your replicates is " 
 				+ "%.2f%n", standardDeviation); //prints standard deviation to first two decimal places
 		System.out.println();
 		System.out.println();
@@ -74,11 +81,12 @@ public class WellCounter {
 	 * Accepts a Scanner for user input and the integer count.
 	 * Returns count.
 	 */
-	public static int countingPrompt(Scanner console, int count){
+	public static int countingPrompt(Scanner console){
 		System.out.println("Use Space Bar to tally larvae.");
 		System.out.print("Press Enter when finished.");
 		String input = console.nextLine();
-		count = input.length();
+		int count = input.length();
+		System.out.println();
 		return count;
 	}
 	
