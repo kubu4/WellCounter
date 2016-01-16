@@ -2,6 +2,8 @@ import java.io.*;
 import java.util.*;
 public class WellCounter {
 //smartgit check smargit check
+	//checking smartgit some more
+	//is it working?
 	public static void main(String[] args) {
 		
 		//variable declarations
