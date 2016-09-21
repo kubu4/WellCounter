@@ -1,4 +1,4 @@
-NOTE: This program is minimally functional and requires running the Java file in some type of java programming software (e.g. Eclipse or JGRASP).
+_NOTE_: This program is minimally functional and requires running the Java file in some type of java programming software (e.g. Eclipse or JGRASP).
 
 My first attempt at writing a program in Java.  This is primarily a basic exercise for me to practice Java, while producing (eventually) a concise, useable program to count organisms, generate basic statistics and write the data to a file.
 
